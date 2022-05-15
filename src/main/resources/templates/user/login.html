@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>用户登录</title>
+    <link rel="stylesheet" href="../../static/layui-v2.6.8/layui/css/layui.css" media="all">
+    <style>
+
+    </style>
+</head>
+<body>
+<!--导航-->
+<div th:fragment="commonNav">
+    <ul class="layui-nav">
+        <li class="layui-nav-item">腾飞论坛</li>
+        <li class="layui-nav-item"><a href="/index">首页</a></li>
+        <li class="layui-nav-item layui-this">
+            <a href="javascript:;">宝库</a>
+            <dl class="layui-nav-child">
+                <dd><a th:href="@{/static/game/fk.html}">切方块</a></dd>
+                <dd><a th:href="@{/static/game/Mario/index.html}">马里奥</a></dd>
+                <dd><a href="adminIndex">管理员</a></dd>
+                <dd><a href="/post/save">发帖</a></dd>
+                <dd><a th:href="@{post/findPostNoQuery}">查看无条件分类查询</a></dd>
+                <dd><a th:href="@{post/findPostQuery}">查看有条件分类查询</a></dd>
+            </dl>
+        </li>
+        <li class="layui-nav-item"><a href="">论坛</a></li>
+        <li class="layui-nav-item">
+            <a href="javascript:;">更多</a>
+            <dl class="layui-nav-child">
+                <dd><a href="">BUG反馈</a></dd>
+                <dd><a href="">意见和建议</a></dd>
+                <dd class="layui-this"><a href="">加入我们！</a></dd>
+                <dd><a href="">合作</a></dd>
+                <!--           <span  style="color: red" th:if="${loginUser!=null}" th:text="${loginUser.username}"></span>-->
+            </dl>
+        </li>
+        <li class="layui-nav-item"><a href="/index">留言板</a></li>
+
+        <ul class="layui-nav layui-layout-right" th:if="${session.loginUser==null}">
+            <li class="layui-nav-item" style="float: right" >
+                <a href="/login">登录</a>
+            </li>
+            <li class="layui-nav-item"  style="float: right" >
+                <a href="/register">注册</a>
+            </li>
+        </ul>
+
+        <ul class="layui-nav layui-layout-right" th:if="${session.loginUser!=null}">
+            <li class="layui-nav-item">
+                <a href="javascript:;">
+                    <img  th:src="${session.loginUser.headshot}" class="layui-nav-img">
+                    <span th:text="${session.loginUser.username}"></span>
+                </a>
+                <dl class="layui-nav-child">
+                    <dd><a href="#"  th:href="@{/user/edit(id=${session.loginUser.id})}">基本资料</a></dd>
+                    <dd><a href="#" th:href="@{/user/postList(id=${session.loginUser.id})}">我的帖子</a></dd>
+                    <dd><a href="">我的收藏</a></dd>
+                    <dd><a href="">我的关注</a></dd>
+                    <dd><a href="#" th:href="@{/user/sendcodeUpdatePassWord(id=${session.loginUser.id})}">修改密码</a></dd>
+                    <dd><a href="#" th:href="@{/myHome(id=${session.loginUser.id})}">个人中心</a> </dd>
+                    <dd><a href="">我的投稿</a></dd>
+                    <dd><a href="#" th:if="user.svip==3" th:href="/adminIndex">管理员入口</a></dd>
+                </dl>
+            <li class="layui-nav-item"><a href="/logout">注销</a></li>
+        </ul>
+
+    </ul>
+</div>
+
+<!--main-->
+<div>
+    <div style="margin: 0px auto;height: 500px;width: 500px;padding-top: 10%">
+        <div class="" style="position: relative;right: 80px">
+            <img src="../../static/images/小飞机.png" style="width: 100%;height: 100%">
+            <span style="position: relative;left: 230px;bottom: 75px;font-size: 20px;color: white">腾飞论坛账号登录</span>
+        </div>
+        <form class="layui-form" action="/user/login" method="post" style="margin-left: 30px">
+
+            <div class="layui-form-item" style="padding-top: 20px">
+                <label class="layui-form-label ">账号</label>
+                <div class="layui-input-block">
+                    <input style="width: 200px" type="text" name="username" required lay-verify="required" placeholder="请输入正确的账号" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">密码</label>
+                <div class="layui-input-block">
+                    <input style="width: 200px" type="password" name="password" required lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">滑块验证</label>
+                <div class="layui-input-block" style="width: 200px;">
+                    <div id="slider"></div>
+                </div>
+            </div>
+
+            <div style="margin: 0px auto">
+              <span style="color: red" th:text="${error}">
+
+              </span>
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-input-block" style="padding: 20px;margin: 0px">
+                    <button type="submit" class="layui-btn" lay-submit lay-filter="formDemo">登录</button>
+<!--                    <button class="layui-btn layui-btn-normal" type="button" id="reset">重置滑块</button>-->
+                    <button type="button" class="layui-btn layui-btn-normal"><a href="/user/register" style="color: white">注册</a></button>
+                    <button type="reset" class="layui-btn layui-btn-danger">重置</button>
+                    <button type="button" class="layui-btn layui-btn-warm"><a href="/user/updatePassword" style="color: white">忘记密码？</a></button>
+                </div>
+            </div>
+        </form>
+
+    </div>
+
+</div>
+
+<!--foot-->
+<div class="layui-main" id="foot" th:fragment="foot" style="float: left;border-color: #00F7DE;width: 100%;height: 100%;margin: 0px auto;text-align: center;position: relative;top: 124px;">
+    <p>© 2022 <a href="/" style="margin-left: 5px;margin-right: 5px">tengfei.pro</a>Test</p>
+    <p>
+        <a href="https://beian.aliyun.com/" target="_blank" style="margin-left: 5px;margin-right: 5px"> 阿里云 </a>
+        <a href="https://www.acfun.cn/" target="_blank" style="margin-left: 5px;margin-right: 5px"> AcFun</a>
+        <a href="javascript:;" site-event="contactInfo" id="lx" style="margin-left: 5px;margin-right: 5px"> 联系我 </a>
+        <a href="https://github.com/" target="_blank" rel="nofollow" style="margin-left: 5px;margin-right: 5px"> GitHub </a>
+        <a href="https://gitee.com/" target="_blank" rel="nofollow" style="margin-left: 5px;margin-right: 5px"> 码云 </a>
+        <a href="https://www.layui.com/" target="_blank" style="margin-left: 5px;margin-right: 5px">Layui</a>
+        <a href="http://www.miitbeian.gov.cn/" target="_blank" rel="nofollow" style="margin-left: 5px;margin-right: 5px"> 桂ICP备19004387号-1 </a>
+    </p>
+    <p class="site-union" style="margin: 0px;padding-top: 20px;padding-bottom: 10px">
+        <a href="https://www.tengfei.pro/" target="_blank" rel="nofollow" upyun=""><img src="../../static/images/gzslogo2.png"  alt="aliyun" style="width: 270px"></a>
+    </p>
+</div>
+
+<script src="../../static/sliderVerify/layui_exts/sliderVerify/sliderVerify.js"></script>
+<script src="../../static/js/jquery.js"></script>
+<script src="../../static/layui-v2.6.8/layui/layui.js"></script>
+<script>
+    layui.config({
+        base: '/static/js/'
+    }).use(['sliderVerify', 'jquery', 'form'], function() {
+        var sliderVerify = layui.sliderVerify,
+            $ = layui.jquery,
+            form = layui.form;
+        var slider = sliderVerify.render({
+            isAutoVerify:true,
+            elem: '#slider',
+            onOk: function(){//当验证通过回调
+                layer.msg("滑块验证通过");
+            }
+        })
+        $('#reset').on('click',function(){
+            slider.reset();
+        })
+        //监听提交
+        form.on('submit(formDemo)', function(data) {
+            if(slider.isOk()){
+                layer.msg("登录成功！");
+            }else{
+                layer.msg("请先通过滑块验证");
+            }
+
+            return true;
+        });
+
+    })
+
+</script>
+</body>
+</html>

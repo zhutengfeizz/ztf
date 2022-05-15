@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="../../static/layui-v2.6.8/layui/css/layui.css" media="all">
+</head>
+<style>
+    .head{
+        background-image: url("../../static/images/bg.png");
+        width: 100%;
+    }
+</style>
+<body>
+
+<div th:fragment="commonNav">
+    <ul class="layui-nav">
+        <li class="layui-nav-item">腾飞论坛</li>
+        <li class="layui-nav-item"><a href="/index">首页</a></li>
+        <li class="layui-nav-item layui-this">
+            <a href="javascript:;">宝库</a>
+            <dl class="layui-nav-child">
+                <dd><a th:href="@{/static/game/fk.html}">切方块</a></dd>
+                <dd><a th:href="@{/static/game/Mario/index.html}">马里奥</a></dd>
+                <dd><a href="adminIndex">管理员</a></dd>
+                <dd><a href="/post/save">发帖</a></dd>
+                <dd><a th:href="@{post/findPostNoQuery}">查看无条件分类查询</a></dd>
+                <dd><a th:href="@{post/findPostQuery}">查看有条件分类查询</a></dd>
+            </dl>
+        </li>
+        <li class="layui-nav-item"><a href="">论坛</a></li>
+        <li class="layui-nav-item">
+            <a href="/user/test">更多</a>
+            <dl class="layui-nav-child">
+                <dd><a href="">BUG反馈</a></dd>
+                <dd><a href="">意见和建议</a></dd>
+                <dd class="layui-this"><a href="">加入我们！</a></dd>
+                <dd><a href="">合作</a></dd>
+                <!--           <span  style="color: red" th:if="${loginUser!=null}" th:text="${loginUser.username}"></span>-->
+            </dl>
+        </li>
+        <li class="layui-nav-item"><a href="/index">留言板</a></li>
+
+        <ul class="layui-nav layui-layout-right" th:if="${session.loginUser==null}">
+            <li class="layui-nav-item" style="float: right" >
+                <a href="/login">登录</a>
+            </li>
+            <li class="layui-nav-item"  style="float: right" >
+                <a href="/register">注册</a>
+            </li>
+        </ul>
+
+        <ul class="layui-nav layui-layout-right" th:if="${session.loginUser!=null}">
+            <li class="layui-nav-item">
+                <a href="javascript:;">
+                    <img  th:src="${session.loginUser.headshot}" class="layui-nav-img">
+                    <span th:text="${session.loginUser.username}"></span>
+                </a>
+                <dl class="layui-nav-child">
+                    <dd><a href="#"  th:href="@{/user/edit(id=${session.loginUser.uid})}">基本资料</a></dd>
+                    <dd><a href="#" th:href="@{/user/postList(id=${session.loginUser.uid})}">我的帖子</a></dd>
+                    <dd><a href="">我的收藏</a></dd>
+                    <dd><a href="">我的关注</a></dd>
+                    <dd><a href="#" th:href="@{/user/sendcodeUpdatePassWord(id=${session.loginUser.uid})}">修改密码</a></dd>
+                    <dd><a href="#" th:href="@{/myHome(id=${session.loginUser.uid})}">个人中心</a> </dd>
+                    <dd><a href="">我的投稿</a></dd>
+                    <dd><a href="#" th:if="user.svip==3" th:href="/adminIndex">管理员入口</a></dd>
+                </dl>
+            <li class="layui-nav-item"><a href="/logout">注销</a></li>
+        </ul>
+
+    </ul>
+</div>
+
+<div class="head">
+
+</div>
+
+<div id="">
+    <div class="layui-container" style="background-color: white;padding: 0 1px;">
+        <!--轮播图-->
+        <div class="layui-carousel" id="test1" style="padding-top: 1px">
+            <div carousel-item style="color: #353C4C">
+                <div>
+                    <div style="float: right;color: #353C4C">
+                        <img src="../static/images/60240fdfb411f38d16dcc99459c6cbdc.jpg" width="100%" height="400px"style="margin-top: 0px" >
+                    </div>
+                </div>
+                <div><img src="../static/images/油画.jpg" style="height: 400px;width: 100%"></div>
+                <div><img src="../static/images/花花草草.jpg"style="height: 400px;width: 100%"></div>
+                <div><img src="../static/images/xigua.jpg"style="height: 400px;width: 100%"></div>
+                <div><img src="../static/images/xiari.jpg"style="height: 400px;width: 100%"></div>
+            </div>
+        </div>
+        <!---->
+        <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief" style="margin-top: 10px;">
+            <ul class="layui-tab-title">
+                <li class="layui-this">管理员推荐<img src="../static/images/热门.png"></li>
+                <li>最新 <img src="../static/images/new%20(2).png"></li>
+                <li>热门推荐 <img src="../static/images/推荐.png" width="30px" height="32"></li>
+                <li>文章区热门<span class="layui-badge">99+</span></li></li>
+                <li>E3游戏展 <img src="../static/images/游戏.png" width="24px" height="20px"></li>
+            </ul>
+            <div class="layui-tab-content" style="">
+                <!--内容1-->
+                <div style="height: 50px">
+                    <i class="web-font" style="color: #FD4C5B;float: left;line-height: 50px">知识就像内-裤，看不见但很重要。</i>
+                    <img src="../static/images/hp.png" style="width: 140px;height: 65px;float: left;margin-left: 55%" alt="找不到图片">
+                </div>
+                <hr style="color: #E6E6E6; size: 4px;margin-top: 10px;margin-bottom: 10px">
+                <!--分类-->
+                <div style="width:410px;float: right;background-color: white;padding-left: 20px">
+                    <div style="width: 400px;height: 50px">
+                        <h4 style="width: 100px;float: left">社区导航</h4>
+                        <div style="width: 230px;height: 50px;float: right;margin-right: 30px">
+                            <input type="text" name="so" placeholder="您要找什么？" style="float: left;width: 180px;height: 40px" />
+                            <img src="../static/images/放大镜.png" style="width: 40px;height: 40px;float: left;" id="baidu">
+                        </div>
+                        <hr style="color: silver;width: 389px">
+                    </div>
+
+                    <div class="map">
+                        <label><a style="font-size: 16px;color: black">综合</a></label><br/>
+                        <span class="layui-breadcrumb" lay-separator="|">
+                          <a href="" >杂谈</a>
+                          <a class="a-font-color" href="">科技</a>
+                          <a href="" >影视</a>
+                          <a href="">体育</a>
+                        </span><br/><br/>
+                    </div>
+
+
+
+                    <label><a style="font-size: 16px;color: black">生活情感</a></label><br/>
+                    <span class="layui-breadcrumb" lay-separator="|">
+                          <a href="" >吐槽</a>
+                          <a href="" style="color: red">情感</a>
+                          <a href="" >萌宠</a>
+                          <a href="">工作</a>
+                          <a href="">买买买！</a>
+                          <a href="">摄影游记</a>
+                    </span><br/><br/>
+
+                    <label><a style="font-size: 16px;color: black">游戏</a></label><br/>
+                    <span class="layui-breadcrumb" lay-separator="|">
+                          <a href="" >游戏杂谈</a>
+                          <a href="">次时代主机</a>
+                          <a href="" >CSGO</a>
+                    </span><br/><br/>
+
+                    <label><a style="font-size: 16px;color: black">动漫文化</a></label><br/>
+                    <span class="layui-breadcrumb" lay-separator="|">
+                          <a href="" >手办模玩</a>
+                          <a href="">漫画杂谈</a>
+                    </span><br/><br/>
+
+                    <label><a style="font-size: 16px;color: black">开车区</a></label><br/>
+                    <span class="layui-breadcrumb" lay-separator="|">
+                          <a href="" >步兵区</a>
+                          <a href="">欧美区</a>
+                          <a href="" >亚洲区</a>
+                          <a href="">质量骑兵区</a>
+                    </span><br/><br/>
+
+                </div>
+
+                <div class="layui-tab-item layui-show">
+
+                    <div style="border: #1b6d85 solid 2px;width: 670px;height: 90px;margin-top: 10px" th:each="post,postStat : ${postList}">
+                        <div style="width: 60px;height: 40px;float: left;padding: 0px 10px 0px 10px;margin-top: 5px">
+                            <div style="float: left"><span style="color:#FD4C5B;font-weight: bold;font-size: 15px" th:text="${post.cunt}"></span></div><br>
+                            <div style="float: left"><span style="color:grey;font-weight: bold;font-size: 15px">评论&nbsp;</span></div>
+                        </div>
+                        <a href="#" th:href="@{/post/postHome(id=${post.id})}" style="color: #0C0C0C;font-size: 20px;font-family: SansSerif" th:text="${post.name}"></a>
+                        <div style="text-overflow: ellipsis;white-space : nowrap;overflow: hidden;">
+                            <span style="font-size: 13px;color:grey;text-overflow: ellipsis;white-space : nowrap;overflow: hidden;width: 100%" th:text="${post.introduction}">
+                            </span>
+                        </div>
+                        <div style="color: grey;font-size: 14px;width: 670px;height: 21px;margin-top: 10px;padding: 0px 10px 0px 10px">
+                            <a href="#"  style="float: left;margin-left: 5%" th:text="'Up:'+${post.user.username}"></a>
+                            <p style="float: left;margin-left: 3%" th:text="${post.createTime}"></p>
+
+                            <i class="glyphicon glyphicon-eye-open" style="margin-left: 40px"></i>
+                            <span th:text="阅读量+${post.views}"></span>
+                            <p style="float: right;margin-right: 20px">
+                                来自：<a href="#" th:text="${post.partition.name}"></a>
+                                -  <a href="#" th:text="${post.field.name}"></a>
+                            </p>
+                        </div>
+                        <hr style="color: #E6E6E6; size: 4px;">
+                    </div>
+
+
+                </div>
+                <!--内容2-->
+                <div class="layui-tab-item layui-show">
+
+                    <div style="border: #1b6d85 solid 2px;width: 670px;height: 90px;margin-top: 10px" th:each="post,postStat : ${postList}">
+                        <div style="width: 60px;height: 40px;float: left;padding: 0px 10px 0px 10px;margin-top: 5px">
+                            <div style="float: left"><span style="color:#FD4C5B;font-weight: bold;font-size: 15px" th:text="${post.cunt}"></span></div><br>
+                            <div style="float: left"><span style="color:grey;font-weight: bold;font-size: 15px">评论&nbsp;</span></div>
+                        </div>
+                        <a href="#" th:href="@{/post/postHome(id=${post.id})}" style="color: #0C0C0C;font-size: 20px;font-family: SansSerif" th:text="${post.name}"></a>
+                        <div style="text-overflow: ellipsis;white-space : nowrap;overflow: hidden;">
+                            <span style="font-size: 13px;color:grey;text-overflow: ellipsis;white-space : nowrap;overflow: hidden;width: 100%" th:text="${post.introduction}">
+                            </span>
+                        </div>
+                        <div style="color: grey;font-size: 14px;width: 670px;height: 21px;margin-top: 10px;padding: 0px 10px 0px 10px">
+                            <a href="#"  style="float: left;margin-left: 5%" th:text="'Up:'+${post.user.username}"></a>
+                            <p style="float: left;margin-left: 3%" th:text="${post.createTime}"></p>
+
+                            <i class="glyphicon glyphicon-eye-open" style="margin-left: 40px"></i>
+                            <span th:text="阅读量+${post.views}"></span>
+                            <p style="float: right;margin-right: 20px">
+                                来自：<a href="#" th:text="${post.partition.name}"></a>
+                                -  <a href="#" th:text="${post.field.name}"></a>
+                            </p>
+                        </div>
+                        <hr style="color: #E6E6E6; size: 4px;">
+                    </div>
+                    <div id="test3"></div>
+                </div>
+                <!--内容3-->
+                <div class="layui-tab-item">
+                    <div style="border: #1b6d85 solid 2px;width: 670px;height: 90px">
+                        <div style="width: 60px;height: 40px;float: left;padding: 0px 10px 0px 10px;margin-top: 5px">
+                            <div style="float: left"><i style="color:#FD4C5B;font-weight: bold;font-size: 15px">834&nbsp;</i></div><br>
+                            <div style="float: left"><i style="color:grey;font-weight: bold;font-size: 15px">评论&nbsp;</i></div>
+                        </div>
+                        <a href="#" style="color: #0C0C0C;font-size: 20px;font-family: SansSerif">90%职场人都在加班，她却能准时下班，成为同事中的异类</a>
+                        <div style="text-overflow: ellipsis;white-space : nowrap;overflow: hidden;">
+                            <i style="font-size: 13px;color:grey;text-overflow: ellipsis;white-space : nowrap;overflow: hidden;width: 100%">
+                                自从互联网大佬发表过“996”的相关言论后，激起了网上一片热议99999999999999999999999999999999999999999
+                            </i>
+                        </div>
+                        <div style="color: grey;font-size: 14px;width: 670px;height: 21px;margin-top: 10px;padding: 0px 10px 0px 10px">
+                            <a href="#" style="float: left;margin-left: 5%">作者:沙雕</a>
+                            <p style="float: left;margin-left: 3%">2019年06月14日 03:43:28</p>
+                            <p style="float: right">来自：<a href="#">工作</a></p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+                <!--内容4-->
+                <div class="layui-tab-item" >
+
+                    <div style="border: #1b6d85 solid 2px;width: 670px;height: 90px">
+                        <div style="width: 60px;height: 40px;float: left;padding: 0px 10px 0px 10px;margin-top: 5px">
+                            <div style="float: left"><i style="color:#FD4C5B;font-weight: bold;font-size: 15px;">3211&nbsp;</i></div><br>
+                            <div style="float: left"><i style="color:grey;font-weight: bold;font-size: 15px">评论&nbsp;</i></div>
+                        </div>
+                        <a href="#" style="color: #0C0C0C;font-size: 20px;font-family: SansSerif">老师有纹身被家长联名辞退：委屈 但不能全怪家长</a>
+                        <div><i style="font-size: 13px;color:grey">转自凤凰网：http://news.ifeng.com/c/7nPvHIGwRrE大家知道最近很火……</i></div>
+                        <div style="color: grey;font-size: 14px;width: 670px;height: 21px;margin-top: 10px;padding: 0px 10px 0px 10px">
+                            <a href="#" style="float: left;margin-left: 5%">作者:吃葡萄不吐葡萄皮</a>
+                            <p style="float: left;margin-left: 3%">2019年06月14日 03:50:28</p>
+                            <p style="float: right">来自：<a href="#">杂谈</a></p>
+                        </div>
+                        <hr style="color: #E6E6E6; size: 4px;">
+                    </div>
+
+
+
+                    <div style="border: #1b6d85 solid 2px;width: 670px;height: 90px;margin-top: 10px">
+                        <div style="width: 60px;height: 40px;float: left;padding: 0px 10px 0px 10px;margin-top: 5px">
+                            <div style="float: left"><i style="color:#FD4C5B;font-weight: bold;font-size: 15px">132&nbsp;</i></div><br>
+                            <div style="float: left"><i style="color:grey;font-weight: bold;font-size: 15px">评论&nbsp;</i></div>
+                        </div>
+                        <a href="#" style="color: #0C0C0C;font-size: 20px;font-family: SansSerif">美国记者5年采访上百中国剩女：她们太酷了，不该单身歧视</a>
+                        <div><i style="font-size: 13px;color:grey">2007年，教育部发布《中国语言生活状况报告》，第一次收录了“剩女”这个词，指那些......</i></div>
+                        <div style="color: grey;font-size: 14px;width: 670px;height: 21px;margin-top: 10px;padding: 0px 10px 0px 10px">
+                            <a href="#" style="float: left;margin-left: 5%">作者:zhuzhu</a>
+                            <p style="float: left;margin-left: 3%">2019年06月13日 15:43:28</p>
+                            <p style="float: right">来自：<a href="#">杂谈</a></p>
+                        </div>
+                        <hr style="color: #E6E6E6; size: 4px;">
+                    </div>
+                </div>
+                <!--内容5-->
+                <div class="layui-tab-item">
+
+                    <div style="border: #1b6d85 solid 2px;width: 670px;height: 90px">
+                        <div style="width: 60px;height: 40px;float: left;padding: 0px 10px 0px 10px;margin-top: 5px">
+                            <div style="float: left"><i style="color:#FD4C5B;font-weight: bold;font-size: 15px;">2321&nbsp;</i></div><br>
+                            <div style="float: left"><i style="color:grey;font-weight: bold;font-size: 15px">评论&nbsp;</i></div>
+                        </div>
+                        <a href="#" style="color: #0C0C0C;font-size: 20px;font-family: SansSerif">E3公布《最终幻想7》重制的时候，为什么眼角真的有泪划过</a>
+                        <div><i style="font-size: 13px;color:grey">我都快记不清最终幻想7重制版爆出过多少次消息了，这次终于看到实际画面了……</i></div>
+                        <div style="color: grey;font-size: 14px;width: 670px;height: 21px;margin-top: 10px;padding: 0px 10px 0px 10px">
+                            <a href="#" style="float: left;margin-left: 5%">作者:E3游戏展实时更新</a>
+                            <p style="float: left;margin-left: 3%">2019年06月14日 03:50:28</p>
+                            <p style="float: right">来自：<a href="#">游戏</a></p>
+                        </div>
+                        <hr style="color: #E6E6E6; size: 4px;">
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="layui-main" id="foot" th:fragment="foot" style="float: left;border-color: #00F7DE;width: 100%;height: 100%;margin: 0px auto;text-align: center;position: relative;top: 124px;">
+        <p>© 2022 <a href="/" style="margin-left: 5px;margin-right: 5px">tengfei.pro</a>Test</p>
+        <p>
+            <a href="https://beian.aliyun.com/" target="_blank" style="margin-left: 5px;margin-right: 5px"> 阿里云 </a>
+            <a href="https://www.acfun.cn/" target="_blank" style="margin-left: 5px;margin-right: 5px"> AcFun</a>
+            <a href="javascript:;" site-event="contactInfo" id="lx" style="margin-left: 5px;margin-right: 5px"> 联系我 </a>
+            <a href="https://github.com/" target="_blank" rel="nofollow" style="margin-left: 5px;margin-right: 5px"> GitHub </a>
+            <a href="https://gitee.com/" target="_blank" rel="nofollow" style="margin-left: 5px;margin-right: 5px"> 码云 </a>
+            <a href="https://www.layui.com/" target="_blank" style="margin-left: 5px;margin-right: 5px">Layui</a>
+            <a href="http://www.miitbeian.gov.cn/" target="_blank" rel="nofollow" style="margin-left: 5px;margin-right: 5px"> 桂ICP备19004387号-1 </a>
+        </p>
+        <p class="site-union" style="margin: 0px;padding-top: 20px;padding-bottom: 10px">
+            <a href="https://www.tengfei.pro/" target="_blank" rel="nofollow" upyun=""><img src="../../static/images/gzslogo2.png"  alt="aliyun" style="width: 270px"></a>
+        </p>
+    </div>
+</div>
+
+<script src="../../static/sliderVerify/layui_exts/sliderVerify/sliderVerify.js"></script>
+<script src="../../static/js/jquery.js"></script>
+<script src="../../static/layui-v2.6.8/layui/layui.js"></script>
+</body>
+</html>

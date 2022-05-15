@@ -1,0 +1,35 @@
+spring:
+  thymeleaf:
+    cache: false
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/ztf?useUnicode=true&characterEncoding=utf-8
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5Dialect
+    hibernate:
+      naming:
+        implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
+        physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+      ddl-auto: update
+    show-sql: true
+    database: mysql
+  web:
+    resources:
+      static-locations: classpath:/,classpath:/static/layui-v2.6.8/layui,classpath:/static/layui-v2.6.8/layui/css,classpath:/D:/uploads/sb/,classpath:/D:/uploads/sb,classpath:/static/font-awesome-4.7.0/css/font-awesome.min.css,classpath:/META-INF/resources/webjars/,classpath:/templates,classpath:/static/sliderVerify/layui_exts/sliderVerify/,
+server:
+  port: 1520
+
+##上传文件
+upload:
+  location:
+    windows: D:\uploads\sb\
+    linux: /usr/etc/uploads/
+
+
+#upload:
+#  location:
+#     windows: E:\uploads\sb\

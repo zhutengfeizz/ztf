@@ -1,0 +1,8 @@
+{
+  "properties": [
+    {
+      "name": "server.location.windows",
+      "type": "java.lang.String",
+      "description": "Description for server.location.windows."
+  }
+] }
